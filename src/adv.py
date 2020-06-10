@@ -1,4 +1,6 @@
 from room import Room
+from player import Player
+from os import system
 
 # Declare all the rooms
 
@@ -49,3 +51,52 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+player_one = Player("Fnu", room["outside"])
+
+def print_instructions():
+    print("|Enter 'n' to move North  |")
+    print("|Enter 's' to move South  |")
+    print("|Enter 'e' to move East   |")
+    print("|Enter 'w' to move West   |")
+    print("|Enter 'q' to quit        |")
+
+
+while True: 
+    print(f'Player: {player_one.name}')
+    print(f'Location: {player_one.current_room.name}')
+    print(f'Location Description: {player_one.current_room.description}')
+    print_instructions()
+
+    next_move = input("What is your next move?")
+    if next_move == "n":
+        if player_one.current_room.n_to == None:
+            print("Not a valid direction. Try a valid direction!")
+        else:
+            player_one.current_room = player_one.current_room.n_to
+            print("You moved to North!")
+    elif next_move == "s":
+        if player_one.current_room.s_to == None:
+            print("Not a valid direction. Try a valid direction!")
+        else:
+            player_one.current_room = player_one.current_room.s_to
+            print("You moved to South!")
+    elif next_move == "e":
+        if player_one.current_room.e_to == None:
+            print("Not a valid direction. Try a valid direction!")
+        else:
+            player_one.current_room = player_one.current_room.e_to
+            print("You moved to East!")
+    elif next_move == "w":
+        if player_one.current_room.w_to == None:
+            print("Not a valid direction. Try a valid direction!")
+        else:
+            player_one.current_room = player_one.current_room.w_to
+            print("You moved to West!")
+    elif next_move == "q":
+        print("Exited the Game!!")
+        system("clear")
+
+        break
+    else:
+        print("Not a valid direction. Try a valid direction!")
