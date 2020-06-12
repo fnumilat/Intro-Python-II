@@ -1,4 +1,6 @@
 from category import Category
+from product import Sneaker
+from product import SoccerBall
 
 class Store:
     # attributes 
@@ -24,16 +26,17 @@ class Store:
         # also returns a string which helps developers understand how your object is structured
         return f"self.name = {self.name} ; self.categories = {self.categories}" 
     
+nike_free = Sneaker("100", "Nike Free", "10", "Nike")
+soccer_ball = SoccerBall("Wilson", "20", "Rubber")
 
-
-running_category = Category("Running", "All your running needs", [])
+running_category = Category("Running", "All your running needs", [nike_free])
 baseball_category = Category("Baseball", "Blue Jays Fans only", [])
 basketball_category = Category("Basketball", "Indoor and outdoor products", [])
 football_category = Category("Football", "The american kind", [])
-soccer_category = Category("Soccer", "The real football", [])
-
+soccer_category = Category("Soccer", "The real football", [soccer_ball])
 
 sports_store = Store("Gander Mountain", [running_category, baseball_category, basketball_category, football_category, soccer_category])
+
 choice = -1
 # REPL <- Read Evaluate Print Loop
 print(sports_store)

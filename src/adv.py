@@ -1,6 +1,7 @@
 from room import Room
 from player import Player
 from os import system
+from item import Item
 
 # Declare all the rooms
 
@@ -22,6 +23,14 @@ to north. The smell of gold permeates the air."""),
 chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
 }
+
+#Items added to each room
+
+room['outside'].items.append(Item("Sword", "A long and sharp sword"))
+room['foyer'].items.append(Item("Hammer", "A Grey medal hammer"))
+room['overlook'].items.append(Item("Saw", "A sharp saw with red handle"))
+room['narrow'].items.append(Item("Grinder", "Grinder with blue handle"))
+room['treasure'].items.append(Item("Nailer", "Yellow nailer"))
 
 
 # Link rooms together
@@ -55,11 +64,14 @@ room['treasure'].s_to = room['narrow']
 player_one = Player("Fnu", room["outside"])
 
 def print_instructions():
-    print("|Enter 'n' to move North  |")
-    print("|Enter 's' to move South  |")
-    print("|Enter 'e' to move East   |")
-    print("|Enter 'w' to move West   |")
-    print("|Enter 'q' to quit        |")
+    print("|Enter 'n' to move North                |")
+    print("|Enter 's' to move South                |")
+    print("|Enter 'e' to move East                 |")
+    print("|Enter 'w' to move West                 |")
+    print("|Enter 'q' to quit                      |")
+    print("|Enter 'get [item]' to get the item     |")
+    print("|Enter 'drop [item]' to remove the item |")
+    print("|from your inventory                    |")
 
 
 while True: 
@@ -67,6 +79,12 @@ while True:
     print(f'Location: {player_one.current_room.name}')
     print(f'Location Description: {player_one.current_room.description}')
     print_instructions()
+    print(f'Items available in this current location:')
+    for item in player_one.current_room.items:
+        print(f'- {item}')
+    print(f'Items in your inventory:')
+    for item in player_one.inventory:
+        print(f'- {item}')
 
     next_move = input("What is your next move?")
     if next_move == "n":
@@ -93,6 +111,29 @@ while True:
         else:
             player_one.current_room = player_one.current_room.w_to
             print("You moved to West!")
+    elif len(next_move.split(" ")) == 2:
+        if next_move.split(" ")[0] == "get":
+            for item in player_one.current_room.items:
+                player_one.inventory.append(item)
+                player_one.current_room.items.remove(item)
+                print("Item is picked up!")
+        else:
+            print("Type 'get [item]' to get the item. ")
+        if next_move.split(" ")[0] == "drop":
+            for item in player_one.inventory:
+                player_one.current_room.items.append(item)
+                player_one.inventory.remove(item)
+                print("Item is removed!")
+        else:
+            print("Type 'drop [item]' to remove the item. ")
+    # elif len(next_move.split(" ")) == 2:
+    #     if next_move.split(" ")[0] == "drop":
+    #         for item in player_one.inventory:
+    #             # player_one.current_room.items.append(item)
+    #             player_one.inventory.remove(item)
+    #             print("Item is removed!")
+    #     else:
+    #         print("Type 'drop [item]' to remove the item. ")
     elif next_move == "q":
         print("Exited the Game!!")
         system("clear")
